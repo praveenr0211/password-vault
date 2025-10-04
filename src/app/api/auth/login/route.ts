@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
+import { Types } from "mongoose";
 import dbConnect from "@/lib/db";
 import User from "@/models/User";
 import { generateToken } from "@/lib/auth";
@@ -37,14 +38,14 @@ export async function POST(request: NextRequest) {
 
     // Generate JWT
     const token = generateToken({
-      userId: (user._id as any).toString(),
+      userId: (user._id as Types.ObjectId).toString(),
       email: user.email,
     });
 
     return NextResponse.json({
       token,
       user: {
-        id: (user._id as any).toString(),
+        id: (user._id as Types.ObjectId).toString(),
         email: user.email,
         encSalt: user.encSalt,
       },
@@ -52,7 +53,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(
-        { error: "Invalid input", details: (error as any).errors },
+        { error: "Invalid input", details: error.issues },
         { status: 400 }
       );
     }
