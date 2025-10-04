@@ -8,7 +8,6 @@ A secure, full-stack password manager with **end-to-end client-side encryption**
 ![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-green)## ✨ Features
 
 ### Core Features
-
 - **🔒 Client-Side Encryption**: All vault items are encrypted using **Web Crypto API (PBKDF2 + AES-GCM)** before being sent to the server
 - **🔐 Secure Authentication**: Email + password with **bcrypt hashing** (12 rounds) and **JWT tokens** (7-day expiration)
 - **🎲 Password Generator**: Generate strong passwords with customizable options (length, character types, strength meter)
@@ -17,7 +16,6 @@ A secure, full-stack password manager with **end-to-end client-side encryption**
 - **✏️ CRUD Operations**: Create, read, update, and delete vault items with instant feedback
 
 ### Advanced Features ⭐ NEW
-
 - **🏷️ Tags & Organization**: Add multiple tags to vault items (e.g., "work", "personal", "banking")
   - Filter items by clicking tag buttons
   - Search includes tag names
@@ -28,42 +26,32 @@ A secure, full-stack password manager with **end-to-end client-side encryption**
   - Encrypted data remains encrypted in backups
 - **🌙 Dark Mode**: Beautiful UI with automatic dark mode support
 - **📱 Responsive Design**: Works seamlessly on desktop, tablet, and mobile devices
-- **✨ Modern UI**: Glass morphism effects, animated gradient backgrounds, smooth transitions
+- **✨ Modern UI**: Glass morphism effects, animated gradient backgrounds, smooth transitionsYou can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-## 🎬 Quick Demo
+## 🔐 Security ArchitectureThis project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-1. **Sign Up**: Create an account with email and strong master password
-2. **Generate Password**: Use the password generator with customizable options
-3. **Save with Tags**: Add items with tags like "work, email, google"
-4. **Organize**: Filter by tags, search across all fields
-5. **Export**: Download encrypted backup of your entire vault
-6. **Import**: Restore from backup files with one click
+### Client-Side Encryption## Learn More
 
-## 📸 Screenshots
+Password Vault implements **zero-knowledge encryption**:To learn more about Next.js, take a look at the following resources:
 
-- **Landing Page**: Modern hero section with animated gradients
-- **Dashboard**: Password generator + vault list with tag filtering
-- **Add/Edit Modal**: Clean form with tags input and password preview
-- **Export/Import**: One-click backup and restore functionality
+1. **Key Derivation**: Your master password is used to derive an encryption key via **PBKDF2** (100,000 iterations)- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
 
-## 🔐 Security Architecture
+2. **Encryption**: Vault items are encrypted client-side using **AES-GCM (256-bit)**- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-### Client-Side Encryption
-
-Password Vault implements **zero-knowledge encryption**:
-
-1. **Key Derivation**: Your master password is used to derive an encryption key via **PBKDF2** (100,000 iterations, SHA-256)
-2. **Encryption**: Vault items are encrypted client-side using **AES-GCM (256-bit)** with unique IV per item
 3. **Storage**: Only encrypted ciphertext is transmitted and stored in MongoDB
-4. **Decryption**: Items are decrypted client-side only when you access your vault
 
-**Encryption Flow:**
+4. **Decryption**: Items are decrypted client-side only when you access your vaultYou can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-```
-Master Password → PBKDF2 (100k iterations) → AES-256 Key → Encrypt Data → Server (Ciphertext Only)
-```
+````## Deploy on Vercel
+
+Master Password → PBKDF2 → AES-256 Key → Encrypt Data → Server (Ciphertext Only)
+
+```The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+
 
 ### AuthenticationCheck out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
 
 - **Password Hashing**: bcrypt with 12 rounds for secure password storage
 - **Session Management**: JWT tokens with 7-day expiration
@@ -109,7 +97,6 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 ```
 
 **Getting MongoDB URI:**
-
 - Sign up for [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
 - Create a free cluster
 - Click "Connect" → "Connect your application"
@@ -117,7 +104,6 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 - **Important**: URL-encode special characters in password (e.g., `@` becomes `%40`)
 
 **Generating JWT Secret:**
-
 ```bash
 node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 ```
@@ -278,42 +264,15 @@ password-vault/
 
 ### Manual Testing Checklist
 
-#### Authentication
-
 - [ ] Sign up with new account
 - [ ] Log in with existing account
-- [ ] Logout functionality
-
-#### Password Generator
-
 - [ ] Generate password with different options
-- [ ] Check strength meter (Weak/Medium/Strong)
-- [ ] Use generated password button
-
-#### Vault Management
-
 - [ ] Save vault item with generated password
-- [ ] Add item with tags (e.g., "work, personal, banking") ⭐
-- [ ] Search for vault items by title, username, URL
-- [ ] Search by tag name ⭐
-- [ ] Filter by clicking tag buttons ⭐
-- [ ] Edit existing item and modify tags ⭐
-- [ ] Copy password to clipboard (verify auto-clear after 30s)
+- [ ] Search for vault items
+- [ ] Edit existing item
+- [ ] Copy password to clipboard
 - [ ] Delete vault item
-
-#### Export/Import ⭐ NEW
-
-- [ ] Export vault to JSON (check Downloads folder)
-- [ ] Verify backup file structure and encryption
-- [ ] Import vault from JSON file
-- [ ] Delete items and restore from backup
-- [ ] Import validation with invalid file
-
-#### Security
-
-- [ ] Verify ciphertext in MongoDB (passwords should be encrypted)
-- [ ] Check JWT token in cookies/localStorage
-- [ ] Test protected routes without authentication
+- [ ] Verify ciphertext in MongoDB
 
 ### Verify Encryption
 
@@ -355,38 +314,17 @@ You should see **unintelligible ciphertext** for password and notes fields.
 
 **I used Web Crypto API (PBKDF2 + AES-GCM) for client-side encryption so vault items are only decrypted client-side. Passwords are hashed with bcrypt for authentication.**
 
-**Key Derivation (PBKDF2):**
-
-- 100,000 iterations for strong key stretching
-- SHA-256 hash algorithm
-- Unique salt per user (stored in database)
-- Derives 256-bit AES key from master password
-
-**Encryption (AES-GCM):**
-
-- 256-bit encryption keys
-- 96-bit Initialization Vector (IV) per item
-- Authenticated encryption (prevents tampering)
-- IV + ciphertext stored as Base64
-
-**Storage Format:**
-
-```
-salt:iv:ciphertext
-```
-
-Example: `abc123...:def456...:ghi789...`
+- **PBKDF2**: 100,000 iterations, SHA-256, per-user salt
+- **AES-GCM**: 256-bit keys, 96-bit IV, authenticated encryption
+- **Storage**: IV + ciphertext combined as Base64
 
 ### Why This Stack?
 
-- **Next.js 15**: App Router, Server Components, API routes, Turbopack
-- **TypeScript**: Type safety, IntelliSense, better developer experience
-- **MongoDB Atlas**: Flexible NoSQL schema, easy scaling, free tier
-- **Tailwind CSS 4**: Utility-first styling, dark mode, animations
-- **Web Crypto API**: Native browser encryption (no external crypto libraries needed)
-- **Zod**: Runtime type validation for API routes
-- **bcrypt**: Industry-standard password hashing
-- **JWT**: Stateless authentication tokens
+- **Next.js 14**: Server actions, API routes, and SSR
+- **TypeScript**: Type safety and better DX
+- **MongoDB**: Flexible schema, easy scaling
+- **Tailwind CSS**: Rapid UI development
+- **Web Crypto API**: Native browser encryption (no external libs needed)
 
 ## 🤝 Contributing
 
@@ -402,83 +340,12 @@ Built with ❤️ using Claude and VS Code
 
 ---
 
-## 🎯 Feature Completion Status
+**Remember**: This is a demonstration project. For production use, consider additional features like:
 
-| Feature                                   | Status         |
-| ----------------------------------------- | -------------- |
-| User Authentication (Signup/Login)        | ✅ Complete    |
-| Password Generator                        | ✅ Complete    |
-| Client-Side Encryption (PBKDF2 + AES-GCM) | ✅ Complete    |
-| Vault CRUD Operations                     | ✅ Complete    |
-| Search & Filter                           | ✅ Complete    |
-| Tags & Organization                       | ✅ Complete ⭐ |
-| Export to JSON Backup                     | ✅ Complete ⭐ |
-| Import from JSON Backup                   | ✅ Complete ⭐ |
-| Dark Mode                                 | ✅ Complete    |
-| Responsive Design                         | ✅ Complete    |
-| Clipboard Auto-Clear                      | ✅ Complete    |
-| Modern UI/UX                              | ✅ Complete    |
-
-### Potential Future Enhancements
-
-- [ ] Two-factor authentication (2FA)
-- [ ] Password strength requirements on signup
-- [ ] Rate limiting for API routes
-- [ ] Account recovery options
-- [ ] Audit logs for security events
-- [ ] Biometric authentication
-- [ ] Browser extension
-- [ ] Password sharing with other users
-- [ ] Password expiration reminders
-
-## 📚 Documentation
-
-- **README.md** (this file) - Comprehensive project overview
-- **SETUP.md** - Quick start guide for developers
-- **DEPLOYMENT.md** - Production deployment checklist
-- **NEW_FEATURES.md** - Detailed Tags & Export/Import documentation
-- **TESTING_CHECKLIST.md** - Systematic testing procedures
-- **QUICKSTART.md** - Quick reference card
-
----
-
-## 🌟 Key Highlights
-
-### Security First
-
-✅ **Zero-knowledge encryption** - Your data is encrypted on your device before it ever reaches our servers  
-✅ **PBKDF2 + AES-GCM** - Industry-standard encryption with 100,000 iterations  
-✅ **No plain-text storage** - Passwords and notes are always encrypted in the database  
-✅ **Open source** - Full transparency, audit the code yourself
-
-### Feature Rich
-
-✅ **Smart password generator** with strength meter  
-✅ **Tags & organization** for better vault management  
-✅ **Export/Import** for easy backups and migrations  
-✅ **Real-time search** across all fields including tags  
-✅ **Dark mode** with beautiful glass morphism UI  
-✅ **Auto-clearing clipboard** for enhanced security
-
-### Developer Friendly
-
-✅ **Modern stack** - Next.js 15 + TypeScript + MongoDB  
-✅ **Well documented** - Multiple guides for setup, deployment, and testing  
-✅ **Type-safe** - Full TypeScript coverage  
-✅ **Easy deployment** - One-click deploy to Vercel
-
----
-
-**⚡ Ready to secure your passwords? Get started in under 5 minutes!**
-
-```bash
-git clone <repo-url> && cd password-vault && npm install && npm run dev
-```
-
-**Need help?** Check out [SETUP.md](./SETUP.md) for detailed instructions or [TESTING_CHECKLIST.md](./TESTING_CHECKLIST.md) for testing procedures.
-
-**Found a bug?** Open an issue on GitHub or submit a pull request!
-
----
-
-Made with 🔐 by developers who care about security.
+- Two-factor authentication (2FA)
+- Password strength requirements
+- Rate limiting
+- Account recovery options
+- Audit logs
+- Biometric authentication
+- Browser extension
