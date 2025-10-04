@@ -7,11 +7,21 @@ import PasswordGenerator from "@/components/PasswordGenerator";
 import VaultList from "@/components/VaultList";
 import VaultItemModal from "@/components/VaultItemModal";
 
+interface DecryptedItem {
+  _id: string;
+  title: string;
+  username: string;
+  password: string;
+  url?: string;
+  notes: string;
+  tags?: string[];
+}
+
 export default function DashboardPage() {
   const router = useRouter();
   const { isAuthenticated, user, logout, token } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editItem, setEditItem] = useState(null);
+  const [editItem, setEditItem] = useState<DecryptedItem | null>(null);
   const [generatedPassword, setGeneratedPassword] = useState("");
   const [refreshKey, setRefreshKey] = useState(0);
 
@@ -30,7 +40,7 @@ export default function DashboardPage() {
     setIsModalOpen(true);
   };
 
-  const handleEdit = (item: any) => {
+  const handleEdit = (item: DecryptedItem) => {
     setEditItem(item);
     setGeneratedPassword("");
     setIsModalOpen(true);

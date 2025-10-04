@@ -183,7 +183,7 @@ export default function LoginPage() {
             <span className="font-bold">AES-GCM 256-bit</span>. Only encrypted
             data is stored on our servers.{" "}
             <span className="text-green-600 dark:text-green-400 font-semibold">
-              We can't read your passwords!
+              We can&apos;t read your passwords!
             </span>
           </p>
         </div>
